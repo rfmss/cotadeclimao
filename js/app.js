@@ -1,6 +1,6 @@
 /**
- * Cota do Climão — Orquestração + UI
- * Fluxo: fetch(ÍndexedDB-first com revalidação em background) → cálculos → render
+ * Cota do Climão — Orquestração + UI (Estação Costeira)
+ * Fluxo: fetch(IndexedDB-first + revalidação em background) → cálculos → render
  */
 (function () {
   'use strict';
@@ -102,8 +102,7 @@
 
         let nivel = null;
         if (valor != null) {
-          const n = f.nivel(valor, { ...maps, ...extra });
-          nivel = n;
+          nivel = f.nivel(valor, { ...maps, ...extra });
         } else {
           nivel = { nivel: 'bom', rotulo: 'Sem dados' };
         }
@@ -114,104 +113,182 @@
     });
   }
 
-  // ─── Loading / render ─────────────────────────────────────────────────────
-  function showLoading() {
-    document.getElementById('app-main').setAttribute('data-state', 'loading');
+  // ─── Engine Split-Flap (motor mecânico adaptado) ──────────────────────────
+  const flapCurr = { d1: '0', d2: '0' };
+  let audioCtx = null;
+
+  function clack() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.05);
+      gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.05);
+    } catch (_) {}
+  }
+
+  function flipDigit(id, next) {
+    next = String(next);
+    if (flapCurr[id] === next) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const sTop = el.querySelector('.static-top span');
+    const sBot = el.querySelector('.static-bottom span');
+    const fFront = el.querySelector('.flap-front span');
+    const fBack = el.querySelector('.flap-back span');
+    sTop.innerText = next;
+    fBack.innerText = next;
+    sBot.innerText = flapCurr[id];
+    fFront.innerText = flapCurr[id];
+    el.classList.remove('flip');
+    void el.offsetWidth;
+    el.classList.add('flip');
+    clack();
+    setTimeout(() => {
+      el.classList.remove('flip');
+      sBot.innerText = next;
+      fFront.innerText = next;
+      flapCurr[id] = next;
+    }, 520);
+  }
+
+  function setScore(n) {
+    const str = String(Math.max(0, Math.min(99, Math.round(n)))).padStart(2, '0');
+    flipDigit('d1', str[0]);
+    flipDigit('d2', str[1]);
+  }
+
+  // ─── Render ────────────────────────────────────────────────────────────────
+  const SCALE_IDEAL = { calor: 28, sol: 6, vento: 38, umidade: 80, ar: 40, chuva: 30 };
+  const SCALE_LABEL = { sol: 'UV', umidade: '%', ar: 'IDX' };
+
+  function scalePct(f) {
+    const max = f.escala || 100;
+    const v = f.valor;
+    if (v == null) return null;
+    return Math.max(0, Math.min(100, (v / max) * 100));
+  }
+  function scaleIdealPct(f) {
+    const max = f.escala || 100;
+    const ideal = SCALE_IDEAL[f.id] != null ? SCALE_IDEAL[f.id] : max * 0.5;
+    return Math.max(0, Math.min(100, (ideal / max) * 100));
   }
 
   function render(fatores, risco, maps, enino, meta) {
     document.getElementById('app-main').setAttribute('data-state', 'ready');
 
-    // Status / banner offline
+    // Banner offline / stale
     const offline = !meta.online;
     document.getElementById('conn-banner').hidden = !offline;
     if (offline) {
-      document.getElementById('conn-banner').innerHTML =
-        `⚠️ Dados de ${fmtData(meta.staleAt || Date.now())} — Conecte-se para atualizar`;
+      document.getElementById('conn-banner').textContent =
+        `⚠ DADOS DE ${fmtData(meta.staleAt || Date.now()).toUpperCase()} — CONECTE-SE PARA REVALIDAR`;
     }
 
-    // Preocupação
-    const elScore = document.getElementById('score-value');
-    elScore.textContent = risco.score;
-    elScore.className = 'score-value level-' + risco.nivel.nivel;
+    // Preocupação → split-flap + label
+    setScore(risco.score);
     document.getElementById('score-label').textContent = risco.nivel.rotulo;
-    document.getElementById('score-bar-inner').className = 'level-' + risco.nivel.nivel;
-    document.getElementById('score-bar-inner').style.width = risco.score + '%';
+    document.getElementById('score-label').style.borderBottomColor =
+      risco.nivel.nivel === 'perigo' || risco.nivel.nivel === 'emergencia' ? 'var(--l-perigo)' : '';
+
+    // Carimbo de estado (só em risco alto)
+    const stampRow = document.getElementById('stamp-row');
+    stampRow.innerHTML = '';
+    if (risco.nivel.nivel === 'perigo' || risco.nivel.nivel === 'emergencia') {
+      const st = document.createElement('div');
+      st.className = 'stamp';
+      st.textContent = risco.nivel.nivel === 'emergencia' ? '! ATENÇÃO MÁXIMA !' : '! ATENÇÃO !';
+      stampRow.appendChild(st);
+      setTimeout(() => st.classList.add('show'), 80);
+    }
+
+    // Status header
+    const statusLabel = document.getElementById('status-label');
+    if (offline) {
+      statusLabel.textContent = 'MODO: DADOS ARMAZENADOS';
+      document.querySelector('.status-dot, .status-indicator').style.background = 'var(--l-atencao)';
+    } else {
+      statusLabel.textContent = 'MEDIÇÃO ATIVA';
+      document.querySelector('.status-indicator').style.background = 'var(--l-bom)';
+    }
 
     // Fatores
     const box = document.getElementById('factor-list');
     box.innerHTML = '';
-    for (const f of fatores) {
-      const ideal = f.ideal;
+    fatores.forEach((f, i) => {
+      const idNum = String(i + 1).padStart(2, '0');
+      const pct = scalePct(f);
+      const idealPct = scaleIdealPct(f);
+      const lvl = f.nivel ? f.nivel.nivel : 'bom';
       const fmt = f.valor != null ? f.valor : '—';
-      const unid = f.alvo === 'UV Index' ? '' : f.unidade;
-      const barClass = 'level-' + (f.nivel?.nivel || 'bom');
+      const unid = f.unidade || '';
+      const idealLabel = f.ideal;
 
       const el = document.createElement('article');
       el.className = 'factor';
       el.innerHTML = `
-        <header>
-          <span class="factor-ico" aria-hidden="true">${f.icona}</span>
-          <h3>${f.nome}</h3>
-          <span class="factor-gauge ${barClass}">${f.nivel?.rotulo || ''}</span>
-        </header>
-        <div class="blood">
-          <div class="blood-ideal" style="left:${idealPct(f.id)}%"></div>
-          <div class="blood-bar ${barClass}" style="width:${valorPct(f)}%"></div>
+        <div class="factor-top">
+          <span class="factor-id">${idNum}</span>
+          <div class="factor-name">${f.icona}${f.nome}</div>
+          <div class="factor-gauge level-${lvl}"><span class="dot"></span>${(f.nivel?.rotulo || '—').toUpperCase()}</div>
         </div>
-        <footer>
-          <span class="blood-value">${fmt} ${unid}</span>
-          <span class="factor-ideal">ideal: ${ideal}</span>
-        </footer>
+        <div class="factor-value ${f.valor == null ? 'value-none' : ''}">${fmt}<small>${unid}</small></div>
+        <div class="ruler">
+          <div class="ruler-track"></div>
+          <div class="ruler-ticks"></div>
+          <div class="ruler-scale"><span>0</span><span>${SCALE_LABEL[f.id] || (f.escala || 100)}</span></div>
+          <div class="ruler-ideal" style="left:${idealPct}%"></div>
+          <div class="ruler-needle level-${lvl}" style="left:${pct == null ? 0 : pct}%"></div>
+        </div>
+        <div class="factor-foot">
+          <span>${f.alvo}</span>
+          <span>ideal: ${idealLabel}</span>
+        </div>
       `;
       box.appendChild(el);
-    }
-
-    // Persona select
-    // (mantém valor selecionado)
+    });
 
     // Recomendações
     const recBox = document.getElementById('rec-list');
     const recs = window.ClimRecs.recomendacoes(fatores, persona, enino);
     recBox.innerHTML = recs.map((r) => `<li>${r}</li>`).join('');
 
-    // El Niño panel
+    // El Niño
     const enBox = document.getElementById('el-nino');
     if (enino && enino.ativo) {
       enBox.hidden = false;
-      enBox.querySelector('.en-valor').textContent =
-        `Muito Forte (anomalia ${enino.anomalia != null ? enino.anomalia.toFixed(1) : '—'}°C) · ${enino.fonte || ''}`;
+      const el = enBox.querySelector('.en-valor');
+      el.textContent = `MUITO FORTE // ANOMALIA ${enino.anomalia != null ? enino.anomalia.toFixed(1) + '°C' : '—'} · ${enino.fonte || ''}`;
     } else {
       enBox.hidden = true;
     }
 
-    // Stress acumulado (usando histórico do cache)
+    // Stress acumulado
     renderStress();
 
-    // Marinfo para pescador
+    // Mar (pescador)
     const marBox = document.getElementById('mar-info');
     if (persona === 'pescador' && maps.mar) {
       marBox.hidden = false;
-      marBox.innerHTML = `🌊 Mar: ondas até ${maps.mar.altura.toFixed(1)}m (período ~${maps.mar.period}s) · mar ${maps.mar.sst != null ? maps.mar.sst + '°C' : 'sem temp'}`;
+      marBox.textContent = `🌊 MAR: ONDAS ATÉ ${maps.mar.altura.toFixed(1)}M · PERÍODO ~${maps.mar.period}S${maps.mar.sst != null ? ` · MAR ${maps.mar.sst}°C` : ''}`;
     } else {
       marBox.hidden = true;
     }
 
-    // Ambientes extras: seca/queimadas (indicadores)
+    // Sinais extras: seca / queimadas / enxurrada
     renderIndicadores(maps, meta);
 
     // Timestamp
-    document.getElementById('updated-at').textContent = 'Atualizado ' + fmtHora(meta.updatedAt || Date.now());
-  }
-
-  function idealPct(id) {
-    const map = { calor: 40, sol: 30, vento: 45, umidade: 50, ar: 30, chuva: 30 };
-    return map[id] ?? 40;
-  }
-  function valorPct(f) {
-    if (f.valor == null) return 0;
-    const map = { calor: 100, sol: 100, vento: 100, umidade: 100, ar: 100, chuva: 70 };
-    return Math.max(4, Math.min(100, (f.valor / (f.id === 'chuva' ? 100 : map[f.id] ?? 100)) * 100));
+    const up = document.getElementById('updated-at');
+    up.textContent = 'ATUALIZADO ' + fmtHora(meta.updatedAt || Date.now());
   }
 
   async function renderStress() {
@@ -224,12 +301,12 @@
       }
       wbgtHist.sort((a, b) => a - b);
       const box = document.getElementById('stress-box');
-      if (wbgtHist.length) {
+      if (wbgtHist.length && wbgtHist.length >= 2) {
         const consec = window.ClimCalc.stressAcumulado(wbgtHist.slice(-7));
         box.hidden = false;
         box.innerHTML = consec >= 2
-          ? `📈 Stress térmico acumulado: <b>${consec}</b> dia(s) seguidos com WBGT ≥ 27.8°C — seu corpo já está cansado do calor.`
-          : `📈 Últimos ${wbgtHist.length} dias registrados — sem fadiga térmica acumulada.`;
+          ? `📈 STRESS TÉRMICO ACUMULADO: <b>${consec}</b> DIAS SEGUIDOS COM WBGT ≥27.8°C — SEU CORPO JÁ ESTÁ CANSADO DO CALOR.`
+          : `📈 ÚLTIMOS ${wbgtHist.length} DIAS REGISTRADOS — SEM FADIGA TÉRMICA ACUMULADA.`;
       } else {
         box.hidden = true;
       }
@@ -242,11 +319,11 @@
 
     if (maps.soil != null) {
       const soloPct = maps.soil * 100;
-      const status = soloPct < 20 ? '🟠 Seca crítica — solo muito seco' : soloPct < 35 ? '🟡 Seca leve' : '🟢 Solo úmido';
+      const status = soloPct < 20 ? 'Seca crítica — solo muito seco' : soloPct < 35 ? 'Seca leve' : 'Solo úmido';
       itens.push(`💧 Umidade do solo: ${Math.round(soloPct)}% · ${status}`);
     }
-    if (maps.rainSum != null && maps.rainProbMax != null && maps.rainProbMax > 60) {
-      itens.push(`🌧️ Chuva concentrada pode chegar (${Math.round(maps.rainProbMax)}% / ~${maps.rainSum}mm) — enxurrada local é possível.`);
+    if (maps.rainProbMax != null && maps.rainProbMax > 60) {
+      itens.push(`🌧️ Chuva concentrada pode chegar (${Math.round(maps.rainProbMax)}% / ~${maps.rainSum ?? 0}mm) — enxurrada local possível.`);
     }
     if (meta.elNinoAtivo) {
       itens.push('🔥 El Niño + seca = atenção redobrada a focos de calor. Não faça queimadas.');
@@ -254,16 +331,15 @@
 
     const box = document.getElementById('indicadores-list');
     box.innerHTML = itens.map((t) => `<li>${t}</li>`).join('') || '<li>Nenhum alerta secundário hoje.</li>';
-    sec.hidden = false;
+    sec.hidden = !itens.length;
   }
 
-  // ─── Main -----------------------------------------------------------------
+  // ─── Main ──────────────────────────────────────────────────────────────────
   async function bootstrap() {
     let meta = { online: true, updatedAt: Date.now(), staleAt: null, elNinoAtivo: false };
 
     const cachedRaw = await window.ClimStorage.loadWeatherDay(HOJE());
 
-    // tenta API
     let data;
     try {
       const [f, aq, marine, enino] = await Promise.all([
@@ -276,9 +352,7 @@
       meta.online = true;
       meta.updatedAt = Date.now();
       meta.elNinoAtivo = !!(enino && enino.ativo);
-      if (!enino) meta.enino = null;
-      else meta.enino = enino;
-
+      meta.enino = enino || null;
       await window.ClimStorage.saveWeatherDay(HOJE(), { data, maps: null });
     } catch (err) {
       if (cachedRaw && cachedRaw.data) {
@@ -287,15 +361,14 @@
         meta.staleAt = cachedRaw.savedAt;
         meta.elNinoAtivo = !!(data.enino && data.enino.ativo);
       } else {
-        showLoading();
         document.getElementById('err-box').hidden = false;
-        document.getElementById('err-box').textContent = 'Sem conexão e sem cache. Abra o app online ao menos uma vez.';
+        document.getElementById('err-box').textContent = 'SEM CONEXÃO E SEM REGISTRO — ABRA O APP ONLINE AO MENOS UMA VEZ';
+        document.getElementById('app-main').setAttribute('data-state', 'ready');
         return;
       }
     }
 
     const maps = buildDaily(data.forecast.daily, data.forecast.hourly, data.air, data.marine);
-    // guarda maps no cache (para stress)
     await window.ClimStorage.saveWeatherDay(HOJE(), { data, maps, savedAt: Date.now() });
 
     const fatores = buildFatores(maps);

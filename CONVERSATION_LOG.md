@@ -18,6 +18,7 @@
 | 7 | 16/09 | El Niño 2026/2027 + aquecimento global | ✅ Fechado |
 | 8 | 16/09 | Benchmark de mercado (30+ apps) | ✅ Fechado |
 | 9 | 16/09 | Implementação MVP aprovada | ✅ Em andamento |
+| 10 | 16/09 | Redesign E-Ink Papel Técnico (escrevaral) | ✅ Fechado |
 
 ---
 
@@ -310,6 +311,30 @@ App → Fetch (retry/backoff) → Open-Meteo (Forecast+AQ+Marine) → Validaçã
 
 ### Endereço piloto
 **Regência, Linhares - ES** — -19.52°S, -39.78°W
+
+---
+
+## 🎨 CONVERSA 10 — REDESIGN: PAPEL TÉCNICO E-INK (ESCREVARAL)
+
+### Contexto
+O usuário rejeitou o visual flat/SaaS do MVP ("achei flat, chato com cara de saas"). Adotado o sistema de design **E-Ink & Papel Técnico** inspirado nas referências do estúdio escrevaral (`/home/rafamass/Área de trabalho/APAGARvouusar/escrevaral-studio(1)/public/`).
+
+### Sistema de design aprovado
+- **Papel:** sage reciclado `#CCD5C7`, `#c4cfc2`, `#d8e4d6`, `#f2f7ef`; tinta `#1E2320`/`#161917`
+- **Fontes:** Anton (display), Oswald (labels técnicos caps), Literata (corpo/serifa)
+- **Elementos:** bordas tracejadas, marcas de registro "+", código de barras no rodapé, selos/carimbos, badges de status ("MODO: MEDIÇÃO ATIVA")
+- **Relógio split-flap mecânico** para o score Preocupação (CSS flip + som de clack via WebAudio)
+- **Dark mode:** variantes "e-ink noturno" via `prefers-color-scheme`
+- **Cotas:** réguas de medição com trilho, ticks, marcador "ideal" tracejado e agulha por nível; ícones SVG stroke (sem emojis); personas como botões de texto (MORADOR/PESCADOR/AGRICULTOR)
+
+### Correções feitas no redesign
+1. `aqiIndex` esperava array de horas, mas Open-Meteo devolve objeto de arrays paralelos → normalização + pico do dia por poluente (bug: "Ar — Sem dados")
+2. Cota Chuva exibia unidade errada "mm" para probabilidade → `%`
+3. Teste Playwright usava seletor `#d1 span.static-top` inválido → `#d1 .static-top span`
+4. `sw.js` cache bump `cota-v1` → `cota-v2`; `manifest.json` cores → paleta sage
+
+### Teste final (16/09)
+Score **48** "Preocupação média — fique atento"; 6 cotas renderizando (Calor 25.8°C, Sol 7.3, Vento 20km/h BF3, Umidade 99%, **Ar 48 (Ar pesado)**, Chuva 100%); El Niño panel; zero erros JS. Screenshots: `screenshot-teste.png`, `screenshot-dark.png`, `screenshot-desktop.png`.
 
 ---
 

@@ -3,121 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Cota do Climão — quanto o tempo concede hoje em Regência, Linhares-ES. Calor, sol, vento, umidade, ar e chuva em exame de sangue climático." />
-  <meta name="theme-color" content="#0f5f3d" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#08130d" media="(prefers-color-scheme: dark)" />
-  <title>Cota do Climão · Regência</title>
+  <meta name="description" content="Cota do Climão — Estação costeira de Regência, ES. O que o tempo concede ou retira hoje: calor, sol, vento, umidade, ar e chuva. Boletim técnico de observação tinta-em-papel." />
+  <meta name="theme-color" content="#CCD5C7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#161b17" media="(prefers-color-scheme: dark)" />
+  <title>COTA CLIMÃO // BOLETIM COSTEIRO — REGÊNCIA</title>
 
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icons/icon-192.png" sizes="192x192" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    /* Inline critical CSS para FOUC-free — tema adaptativo */
-    :root {
-      color-scheme: light dark;
-    }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      line-height: 1.5;
-      min-height: 100vh;
-      background: light-dark(#f3f7f4, #0b1510);
-      color: light-dark(#16302a, #e8f1ec);
-      transition: background .3s, color .3s;
-    }
+    :root { color-scheme: light dark; }
+    body { margin: 0; background: #CCD5C7; color: #1E2320; }
   </style>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div id="app-main" data-state="loading">
-    <header class="topbar">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">🌡️</span>
-        <h1>Cota do Climão</h1>
-        <span class="brand-sub">Regência · Linhares / ES</span>
+<div id="app-main" data-state="loading">
+
+  <!-- ── CABEÇALHO TÉCNICO ─────────────────────────────── -->
+  <header class="tech-header">
+    <div class="brand-name">COTA<b>CLIMÃO</b></div>
+    <div class="tech-tag">ESTAÇÃO COSTEIRA // REGÊNCIA-ES</div>
+    <div class="status-badge">
+      <span class="status-indicator"></span>
+      <span id="status-label">MEDIÇÃO ATIVA</span>
+    </div>
+  </header>
+
+  <div id="conn-banner" class="banner banner-warn" hidden></div>
+  <div id="err-box" class="banner banner-err" hidden></div>
+
+  <main class="logbook">
+
+    <!-- ── FICHA TÉCNICA / ÍNDICE DE PREOCUPAÇÃO ───────── -->
+    <section class="slate score-slate" aria-label="Índice de preocupação climática">
+      <div class="slate-head">
+        <div style="display:flex;flex-direction:column;gap:6px;min-width:0;">
+          <div class="slate-tag">FICHA TÉCNICA DO DIA // ÍNDICE DE PREOCUPAÇÃO</div>
+          <div class="slate-sub" id="score-label">MEDINDO CONDIÇÕES…</div>
+        </div>
+        <div class="persona-switch" role="group" aria-label="Seu perfil">
+          <button data-persona="geral" class="btn-action active">MORADOR</button>
+          <button data-persona="pescador" class="btn-action">PESCADOR</button>
+          <button data-persona="agricultor" class="btn-action">AGRICULTOR</button>
+        </div>
       </div>
-      <time id="updated-at" class="updated">Atualizando…</time>
-    </header>
 
-    <div id="conn-banner" class="banner banner-warn" hidden></div>
-    <div id="err-box" class="banner banner-err" hidden></div>
-
-    <main>
-      <!-- Preocupação -->
-      <section class="card score-card" aria-labelledby="score-title">
-        <div class="card-head">
-          <h2 id="score-title">😰 Preocupação</h2>
-          <div class="persona-switch" role="group" aria-label="Seu perfil">
-            <button data-persona="geral" class="active">🏠</button>
-            <button data-persona="pescador" title="Pescador">🎣</button>
-            <button data-persona="agricultor" title="Agricultor">🌾</button>
+      <div class="score-instrument">
+        <svg class="reg-mark reg-tl" viewBox="0 0 16 16"><path d="M8 0v16M0 8h16" stroke="currentColor" stroke-width="1.2"/></svg>
+        <svg class="reg-mark reg-tr" viewBox="0 0 16 16"><path d="M8 0v16M0 8h16" stroke="currentColor" stroke-width="1.2"/></svg>
+        <div class="clock">
+          <div class="group">
+            <div class="digit" id="d1">
+              <div class="card top static-top"><span>0</span></div><div class="card bottom static-bottom"><span>0</span></div>
+              <div class="card top flap-front"><span>0</span></div><div class="card bottom flap-back"><span>0</span></div>
+            </div>
+            <div class="digit" id="d2">
+              <div class="card top static-top"><span>0</span></div><div class="card bottom static-bottom"><span>0</span></div>
+              <div class="card top flap-front"><span>0</span></div><div class="card bottom flap-back"><span>0</span></div>
+            </div>
+            <div class="colon">/100</div>
           </div>
         </div>
-        <div class="score-big">
-          <span id="score-value" class="score-value level-bom">--</span>
-          <span class="score-max">/100</span>
-        </div>
-        <p id="score-label" class="score-label" role="status">Desenhando o dia…</p>
-        <div class="score-bar" role="img" aria-label="Índice de preocupação climática">
-          <div id="score-bar-inner" class="score-bar-inner level-bom" style="width:0%"></div>
-        </div>
-      </section>
+        <div class="stamp-row" id="stamp-row"></div>
+      </div>
+    </section>
 
-      <!-- Fatores -->
-      <section class="card" aria-labelledby="fatores-title">
-        <h2 id="fatores-title" class="section-title">Quanta permissão o clima dá hoje</h2>
-        <div id="factor-list" class="factors"></div>
-      </section>
+    <!-- ── AS SEIS COTAS ────────────────────────────────── -->
+    <section class="slate" aria-labelledby="fatores-title">
+      <div class="slate-head">
+        <div class="slate-tag" id="fatores-title">AS SEIS COTAS DO DIA</div>
+        <div class="slate-meta">O QUE O CLIMA CONCEDE OU RETIRA</div>
+      </div>
+      <div id="factor-list" class="factors"></div>
+    </section>
 
-      <!-- Recomendações -->
-      <section class="card recs" aria-labelledby="rec-title">
-        <h2 id="rec-title" class="section-title">🧠 Para hoje</h2>
-        <ul id="rec-list" class="rec-list"></ul>
-      </section>
+    <!-- ── PARA HOJE / NOTA DO OBSERVADOR ───────────────── -->
+    <section class="slate" aria-labelledby="rec-title">
+      <div class="slate-head"><div class="slate-tag" id="rec-title">PARA HOJE // NOTA DO OBSERVADOR</div></div>
+      <ul id="rec-list" class="rec-list"></ul>
+    </section>
 
-      <!-- Indicadores secundários -->
-      <section id="indicadores" class="card" aria-labelledby="ind-title" hidden>
-        <h2 id="ind-title" class="section-title">Sinais extras</h2>
-        <ul id="indicadores-list" class="rec-list"></ul>
-      </section>
-      <div id="stress-box" class="banner banner-soft" hidden></div>
-      <div id="mar-info" class="banner banner-soft" hidden></div>
+    <!-- ── SINAIS EXTRAS ────────────────────────────────── -->
+    <section id="indicadores" class="slate" aria-labelledby="ind-title" hidden>
+      <div class="slate-head"><div class="slate-tag" id="ind-title">SINAIS EXTRAS // MONITORAMENTO</div></div>
+      <ul id="indicadores-list" class="rec-list"></ul>
+    </section>
+    <div id="stress-box" class="banner banner-soft" hidden></div>
+    <div id="mar-info" class="banner banner-soft" hidden></div>
 
-      <!-- El Niño -->
-      <section id="el-nino" class="card en-card" hidden aria-labelledby="en-title">
-        <h2 id="en-title" class="section-title">🌍 El Niño 2026/2027</h2>
-        <p class="en-valor">Ativo</p>
-        <ul class="rec-list">
-          <li>Calor acima do normal e chuva irregular por aqui.</li>
-          <li>Incêndio vegetal em atenção — evite queimadas.</li>
-          <li>Economize água: reservatórios regionais em alerta.</li>
-        </ul>
-      </section>
-    </main>
+    <!-- ── AVISO EL NIÑO ────────────────────────────────── -->
+    <section id="el-nino" class="slate en-slate" aria-labelledby="en-title" hidden>
+      <svg class="reg-mark reg-tl" viewBox="0 0 16 16"><path d="M8 0v16M0 8h16" stroke="currentColor" stroke-width="1.2"/></svg>
+      <svg class="reg-mark reg-tr" viewBox="0 0 16 16"><path d="M8 0v16M0 8h16" stroke="currentColor" stroke-width="1.2"/></svg>
+      <div class="slate-head"><div class="slate-tag" id="en-title">AVISO // FASE OCEÂNICA EL NIÑO 2026/27</div></div>
+      <p class="en-valor">MUITO FORTE — ATIVO</p>
+      <ul class="rec-list">
+        <li>Calor acima do normal e chuva irregular no litoral.</li>
+        <li>Foco de incêndio em atenção — não faça queimadas.</li>
+        <li>Economize água: reservatórios regionais sob alerta.</li>
+      </ul>
+    </section>
 
-    <footer class="foot">
-      <p>Dados: Open-Meteo (Forecast · Air Quality · Marine) · Piloto: Regência, ES</p>
-      <p>Limites: NIOSH 2016 · WHO · OMM · Beaufort · AQI WHO 2021</p>
-    </footer>
+  </main>
 
-    <div class="loading-ring" aria-label="Carregando dados">
-      <div class="ring"></div>
+  <!-- ── RODAPÉ TÉCNICO ────────────────────────────────── -->
+  <footer class="tech-footer">
+    <div class="barcode"></div>
+    <div class="footer-meta">
+      <span>PADRÃO: COTA DO CLIMÃO REF. 2529G/M²</span>
+      <span id="updated-at">ATUALIZANDO…</span>
+      <span>SÉRIE : 84231908</span>
     </div>
-  </div>
+  </footer>
 
-  <script src="js/calculations.js"></script>
-  <script src="js/factors.js"></script>
-  <script src="js/risk.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/recommendations.js"></script>
-  <script src="js/api.js"></script>
-  <script src="js/app.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
-      });
-    }
-  </script>
+  <div class="loading-ring" aria-label="Carregando medições"><div class="ring"></div></div>
+</div>
+
+<script src="js/calculations.js"></script>
+<script src="js/factors.js"></script>
+<script src="js/risk.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/recommendations.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+  }
+</script>
 </body>
 </html>

@@ -58,13 +58,37 @@
   }
 
   function aqiIndex(hourly) {
-    const p = hourly && hourly.length ? hourly[0] : null;
-    if (!p) return null;
+    if (!hourly) return null;
+    // Open-Meteo devolve objeto de arrays paralelos {time:[], pm2_5:[], ...}
+    // (ou, em alguns casos, array de objetos-hora). Normaliza para array de pontos.
+    let points = hourly;
+    if (!Array.isArray(hourly)) {
+      const n = (hourly.time && hourly.time.length) || 0;
+      points = [];
+      for (let i = 0; i < n; i++) {
+        const p = {};
+        for (const k of ['pm2_5', 'pm10', 'ozone', 'o3', 'nitrogen_dioxide', 'no2']) {
+          if (Array.isArray(hourly[k])) p[k] = hourly[k][i];
+        }
+        points.push(p);
+      }
+      if (!points.length) return null;
+    }
+    // Pico do dia (primeiras 12h) por poluente — robusto a horários nulos.
+    const dayspan = points.slice(0, 12);
+    const peak = (key) => {
+      let v = null;
+      for (const h of dayspan) {
+        const val = h[key];
+        if (val != null && !isNaN(val)) v = v == null ? val : Math.max(v, val);
+      }
+      return v;
+    };
     const comps = [
-      aqiComponent(p.pm2_5, 'pm2_5'),
-      aqiComponent(p.pm10, 'pm10'),
-      aqiComponent(p.ozone || p.o3, 'o3'),
-      aqiComponent(p.nitrogen_dioxide || p.no2, 'no2'),
+      aqiComponent(peak('pm2_5'), 'pm2_5'),
+      aqiComponent(peak('pm10'), 'pm10'),
+      aqiComponent(peak('ozone') ?? peak('o3'), 'o3'),
+      aqiComponent(peak('nitrogen_dioxide') ?? peak('no2'), 'no2'),
     ].filter((x) => x != null);
     if (!comps.length) return null;
     const idx = Math.max(...comps);
