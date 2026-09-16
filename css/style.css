@@ -1,0 +1,309 @@
+/* Cota do Climão — tema adaptativo (dark/light) + WCAG AA */
+
+:root {
+  --bg: light-dark(#f3f7f4, #0b1510);
+  --card: light-dark(#ffffff, #132019);
+  --card-2: light-dark(#eaf3ee, #1b2c23);
+  --text: light-dark(#16302a, #e8f1ec);
+  --muted: light-dark(#5b7268, #9cb3a7);
+  --line: light-dark(#ccddd3, #2b4437);
+  --accent: #0f7a4f;
+  --radius: 16px;
+
+  /* níveis */
+  --l-bom: #1e9e62;
+  --l-atencao: #d99b1f;
+  --l-alerta: #d96a1f;
+  --l-perigo: #d33b3b;
+  --l-emergencia: #8e1f6f;
+
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg);
+  color: var(--text);
+}
+
+#app-main {
+  width: 100%;
+  max-width: 760px;
+  padding: 0 16px 40px;
+}
+
+/* ─── Topbar ─────────────────────────────── */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px 4px 8px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.brand mark-brand, .brand-mark {
+  font-size: 1.6rem;
+}
+.brand h1 {
+  margin: 2px 0 0;
+  font-size: 1.45rem;
+  letter-spacing: -.02em;
+}
+.brand-sub {
+  display: block;
+  color: var(--muted);
+  font-size: .85rem;
+}
+.updated {
+  color: var(--muted);
+  font-size: .8rem;
+  white-space: nowrap;
+}
+
+/* ─── Cards ──────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-top: 14px;
+  box-shadow: var(--shadow);
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.card h2 {
+  font-size: 1.05rem;
+  margin: 0;
+}
+.section-title {
+  font-size: 1.02rem;
+  margin: 0 0 12px;
+}
+
+/* ─── Persona ────────────────────────────── */
+.persona-switch {
+  display: flex;
+  gap: 4px;
+  background: var(--card-2);
+  border-radius: 999px;
+  padding: 3px;
+}
+.persona-switch button {
+  border: 0;
+  background: transparent;
+  font-size: 1.15rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--text);
+  transition: background .2s;
+}
+.persona-switch button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.persona-switch button.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ─── Score / Preocupação ────────────────── */
+.score-big {
+  display: flex;
+  align-items: baseline;
+  margin-top: 8px;
+}
+.score-value {
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+.score-max {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-left: 6px;
+}
+.score-label {
+  margin: 6px 0 12px;
+  color: var(--muted);
+}
+.score-bar {
+  height: 14px;
+  background: var(--card-2);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+.score-bar-inner {
+  height: 100%;
+  border-radius: 999px;
+  transition: width .6s ease, background .3s;
+}
+
+/* ─── Fatores (blood test) ───────────────── */
+.factors { display: grid; gap: 14px; }
+.factor {
+  background: var(--card-2);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.factor header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.factor-ico { font-size: 1.25rem; }
+.factor h3 { margin: 0; font-size: .98rem; flex: 1; }
+.factor-gauge {
+  font-size: .78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--l-bom);
+}
+.factor-gauge.level-atencao { background: var(--l-atencao); }
+.factor-gauge.level-alerta { background: var(--l-alerta); }
+.factor-gauge.level-perigo { background: var(--l-perigo); }
+.factor-gauge.level-emergencia { background: var(--l-emergencia); }
+
+.blood {
+  position: relative;
+  height: 10px;
+  background: rgba(0,0,0,.08);
+  border-radius: 999px;
+  margin: 4px 0 6px;
+}
+.blood-ideal {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--muted);
+  opacity: .8;
+}
+.blood-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--l-bom);
+  transition: width .5s ease;
+}
+.blood-bar.level-atencao { background: var(--l-atencao); }
+.blood-bar.level-alerta { background: var(--l-alerta); }
+.blood-bar.level-perigo { background: var(--l-perigo); }
+.blood-bar.level-emergencia { background: var(--l-emergencia); }
+
+.factor footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: .8rem;
+  color: var(--muted);
+}
+.blood-value {
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ─── Recomendações ──────────────────────── */
+.rec-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.rec-list li {
+  background: var(--card-2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: .93rem;
+}
+
+/* ─── Banners ────────────────────────────── */
+.banner {
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 14px;
+  font-size: .9rem;
+  font-weight: 600;
+}
+.banner-warn {
+  background: color-mix(in srgb, var(--l-atencao) 18%, transparent);
+  color: var(--text);
+  border: 1px solid var(--l-atencao);
+}
+.banner-err {
+  background: color-mix(in srgb, var(--l-perigo) 18%, transparent);
+  color: var(--text);
+  border: 1px solid var(--l-perigo);
+}
+.banner-soft {
+  background: var(--card-2);
+  border: 1px dashed var(--line);
+}
+
+/* ─── El Niño ────────────────────────────── */
+.en-card {
+  border-color: color-mix(in srgb, var(--l-perigo) 55%, var(--line));
+}
+.en-valor {
+  font-weight: 700;
+  margin: 6px 0;
+  color: var(--l-perigo);
+}
+
+/* ─── Loading ────────────────────────────── */
+.loading-ring {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ring {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 4px solid var(--line);
+  border-top-color: var(--accent);
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#app-main[data-state="ready"] .loading-ring { display: none; }
+#app-main[data-state="loading"] .loading-ring { display: block; }
+
+/* ─── Footer ─────────────────────────────── */
+.foot {
+  margin-top: 26px;
+  color: var(--muted);
+  font-size: .75rem;
+  text-align: center;
+  line-height: 1.7;
+}
+.foot p { margin: 2px 0; }
+
+/* ─── Responsivo ─────────────────────────── */
+@media (max-width: 460px) {
+  .topbar { padding-top: 16px; }
+  .score-value { font-size: 2.8rem; }
+  .persona-switch button { padding: 4px 8px; }
+}
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
