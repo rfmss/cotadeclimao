@@ -67,9 +67,9 @@
     });
 
     // AQI
-    const aq = window.ClimCalc.aqiIndex(aq?.hourly);
-    maps.aqi = aq ? aq.aqi : null;
-    maps.aqiDetalhe = aq ? aq.compos : null;
+    const aqiOut = window.ClimCalc.aqiIndex(aq?.hourly);
+    maps.aqi = aqiOut ? aqiOut.aqi : null;
+    maps.aqiDetalhe = aqiOut ? aqiOut.compos : null;
 
     // Mar (para pescador)
     maps.mar = null;
