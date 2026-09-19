@@ -608,3 +608,335 @@ html, body {
     height: 1.6vh;
   }
 }
+
+/* ═══════════════════════════════════════════════
+   DIORAMAS ISOMÉTRICOS — Mini-cenas 3D
+   ═══════════════════════════════════════════════ */
+
+.dm {
+  height: 90px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  perspective: 600px;
+  margin: 0.5vh 0;
+  flex-shrink: 0;
+}
+
+.dm-shadow {
+  position: absolute;
+  bottom: 4px;
+  width: 90px;
+  height: 28px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.dm-island {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(55deg) rotateZ(-38deg);
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.factor:hover .dm-island {
+  transform: rotateX(50deg) rotateZ(-32deg) scale(1.06);
+}
+
+/* Base da ilha */
+.dm-grass {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: radial-gradient(circle at 35% 35%, #88d447, #4a8a1f);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.25);
+}
+.dm-grass-dry { background: radial-gradient(circle at 35% 35%, #c9a84c, #8a6020); }
+.dm-grass-wet { background: radial-gradient(circle at 35% 35%, #5db85d, #2a6e2a); }
+.dm-grass-sun { background: radial-gradient(circle at 35% 35%, #d4c070, #8a8020); }
+
+.dm-dirt-s {
+  position: absolute;
+  top: 100%; left: 0; width: 100%; height: 28px;
+  background: linear-gradient(180deg, #6e4627 0%, #3a1f08 100%);
+  transform-origin: top;
+  transform: rotateX(-90deg);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.dm-dirt-e {
+  position: absolute;
+  top: 0; left: 100%; width: 28px; height: 100%;
+  background: linear-gradient(90deg, #58371d 0%, #2e1a09 100%);
+  transform-origin: left;
+  transform: rotateY(90deg);
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* ─── VENTO ─── */
+.dm-mast {
+  position: absolute; left: 18px; top: 15px;
+  width: 5px; height: 52px;
+  background: linear-gradient(180deg, #8b5e3c, #5a3416);
+  border-radius: 2px;
+  transform-origin: bottom center;
+  transform: rotateX(-90deg) rotateY(35deg);
+}
+.dm-flag {
+  position: absolute; top: 2px; left: 5px;
+  width: 28px; height: 18px;
+  background: linear-gradient(90deg, #2b7ef7, #1555c4);
+  clip-path: polygon(0 0, 100% 0, 78% 50%, 100% 100%, 0 100%);
+  border-left: 2px solid #f5b700;
+  transform-origin: left center;
+  animation: dmFlagWave 1.4s ease-in-out infinite alternate;
+}
+@keyframes dmFlagWave {
+  0% { transform: skewY(0deg) scaleX(0.85); }
+  100% { transform: skewY(-14deg) scaleX(1.05); }
+}
+.dm-tornado {
+  position: absolute; left: 48px; top: 44px;
+  transform: rotateX(-90deg);
+}
+.dm-swirl {
+  position: absolute; border-radius: 50%;
+  border: 2px dashed rgba(165,240,255,0.85);
+  border-top-color: #fff;
+  box-shadow: 0 0 8px rgba(165,240,255,0.6);
+  animation: dmSpin linear infinite;
+}
+.dm-s1 { width: 16px; height: 16px; bottom: 4px; left: -8px; }
+.dm-s2 { width: 28px; height: 28px; bottom: 16px; left: -14px; animation-direction: reverse; }
+.dm-s3 { width: 40px; height: 40px; bottom: 30px; left: -20px; }
+@keyframes dmSpin { 100% { transform: rotate(360deg); } }
+
+.dm-leaf {
+  position: absolute; width: 6px; height: 4px;
+  border-radius: 50% 0 50% 0;
+  animation: dmFlyLeaf 1.5s infinite linear;
+}
+.dm-l1 { bottom: 14px; left: -10px; background: #f5b700; }
+.dm-l2 { bottom: 28px; left: 8px; background: #e04b1f; animation-delay: -0.5s; }
+.dm-l3 { bottom: 8px; left: 4px; background: #71cf31; animation-delay: -1s; }
+@keyframes dmFlyLeaf {
+  0% { transform: translate(0,0) rotate(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(-18px,-28px) rotate(360deg); opacity: 0; }
+}
+
+/* ─── CALOR ─── */
+.dm-thermo {
+  position: absolute; left: 16px; top: 12px;
+  transform: rotateX(-90deg) rotateY(30deg);
+  display: flex; flex-direction: column; align-items: center;
+  width: 14px;
+}
+.dm-thermo-tube {
+  width: 8px; height: 42px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px 4px 0 0;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  display: flex; align-items: flex-end; overflow: hidden;
+}
+.dm-thermo-fill {
+  width: 100%;
+  background: linear-gradient(180deg, #ff6b35, #cc2200);
+  border-radius: 2px;
+  transition: height 0.5s ease;
+}
+.dm-thermo-bulb {
+  width: 14px; height: 14px;
+  background: radial-gradient(circle at 40% 35%, #ff8c5a, #cc2200);
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  margin-top: -1px;
+}
+.dm-heatwaves {
+  position: absolute; left: 30px; top: 10px;
+  transform: rotateX(-90deg);
+}
+.dm-heatwave {
+  position: absolute; width: 3px; height: 30px;
+  background: linear-gradient(180deg, transparent, rgba(255,180,50,0.7), transparent);
+  border-radius: 2px;
+  animation: dmHeat 1.2s ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+@keyframes dmHeat {
+  0% { transform: scaleY(0.6) skewX(3deg); opacity: 0.4; }
+  100% { transform: scaleY(1.1) skewX(-3deg); opacity: 0.85; }
+}
+
+/* ─── SOL ─── */
+.dm-sun-orb {
+  position: absolute; left: 30px; top: 10px;
+  transform: rotateX(-90deg);
+  animation: dmRotate linear infinite;
+}
+@keyframes dmRotate { 100% { transform: rotateX(-90deg) rotate(360deg); } }
+.dm-sun-core {
+  width: 28px; height: 28px;
+  background: radial-gradient(circle at 40% 35%, #fff176, #fdd835, #f57f17);
+  border-radius: 50%;
+  box-shadow: 0 0 14px rgba(255,220,50,0.9);
+  position: absolute; top: -14px; left: -14px;
+}
+.dm-ray {
+  position: absolute; width: 3px; height: 12px;
+  background: linear-gradient(180deg, rgba(255,220,50,0.9), transparent);
+  border-radius: 2px;
+  top: -28px; left: -1.5px;
+  transform-origin: bottom center;
+}
+.dm-ray-1 { transform: rotate(0deg); }
+.dm-ray-2 { transform: rotate(45deg); }
+.dm-ray-3 { transform: rotate(90deg); }
+.dm-ray-4 { transform: rotate(135deg); }
+.dm-ray-5 { transform: rotate(180deg); }
+.dm-ray-6 { transform: rotate(225deg); }
+.dm-ray-7 { transform: rotate(270deg); }
+.dm-ray-8 { transform: rotate(315deg); }
+.dm-shadow-obj {
+  position: absolute; right: 22px; bottom: 22px;
+  width: 20px; height: 6px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 50%;
+  transform: rotateX(-90deg);
+}
+
+/* ─── UMIDADE ─── */
+.dm-well {
+  position: absolute; left: 22px; top: 18px;
+  transform: rotateX(-90deg) rotateY(25deg);
+}
+.dm-well-wall {
+  width: 28px; height: 20px;
+  background: linear-gradient(180deg, #7d7d7d, #4a4a4a);
+  border-radius: 4px;
+  border: 1.5px solid rgba(255,255,255,0.2);
+}
+.dm-well-arch {
+  position: absolute; top: -8px; left: 2px;
+  width: 24px; height: 12px;
+  border: 3px solid #8b6914;
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+}
+.dm-drops {
+  position: absolute; left: 20px; top: 8px;
+  transform: rotateX(-90deg);
+}
+.dm-drop {
+  position: absolute; width: 5px; height: 8px;
+  background: linear-gradient(180deg, rgba(120,200,255,0.9), rgba(40,130,255,0.7));
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  animation: dmRainDrop 1.2s ease-in infinite;
+}
+@keyframes dmRainDrop {
+  0% { transform: translateY(-10px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(30px); opacity: 0; }
+}
+.dm-pond {
+  position: absolute; bottom: 14px; left: 40px;
+  width: 36px; height: 16px;
+  background: radial-gradient(ellipse, rgba(80,170,240,0.6), rgba(40,120,200,0.3));
+  border-radius: 50%;
+  transform: rotateX(-90deg);
+}
+
+/* ─── AR ─── */
+.dm-smokestack {
+  position: absolute; left: 20px; top: 20px;
+  transform: rotateX(-90deg) rotateY(25deg);
+}
+.dm-smokestack::before {
+  content: '';
+  display: block;
+  width: 14px; height: 30px;
+  background: linear-gradient(180deg, #5a5a5a, #3a3a3a);
+  border-radius: 3px 3px 0 0;
+}
+.dm-smoke {
+  position: absolute; border-radius: 50%;
+  background: rgba(180,180,180,0.5);
+  animation: dmSmoke ease-out infinite;
+}
+.dm-smoke-1 { width: 16px; height: 16px; bottom: 30px; left: -1px; }
+.dm-smoke-2 { width: 12px; height: 12px; bottom: 40px; left: 2px; animation-delay: -0.4s; }
+@keyframes dmSmoke {
+  0% { transform: translateY(0) scale(0.5); opacity: 0.7; }
+  100% { transform: translateY(-30px) scale(2); opacity: 0; }
+}
+.dm-particles {
+  position: absolute; inset: 0;
+  transform: rotateX(-90deg);
+}
+.dm-particle {
+  position: absolute; width: 5px; height: 5px;
+  border-radius: 50%;
+  animation: dmFloat 2s ease-in-out infinite alternate;
+  opacity: 0.7;
+}
+@keyframes dmFloat {
+  0% { transform: translateY(0) translateX(0); }
+  100% { transform: translateY(-12px) translateX(4px); }
+}
+
+/* ─── CHUVA ─── */
+.dm-cloud {
+  position: absolute; left: 14px; top: 8px;
+  transform: rotateX(-90deg);
+}
+.dm-cloud-body {
+  width: 58px; height: 22px;
+  background: linear-gradient(180deg, #b8c4d0, #8fa0b0);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  position: relative;
+}
+.dm-cloud-body::before {
+  content: '';
+  position: absolute; top: -10px; left: 10px;
+  width: 22px; height: 22px;
+  background: #b8c4d0;
+  border-radius: 50%;
+}
+.dm-cloud-body::after {
+  content: '';
+  position: absolute; top: -6px; left: 26px;
+  width: 18px; height: 18px;
+  background: #b8c4d0;
+  border-radius: 50%;
+}
+.dm-rain-container { position: relative; height: 28px; margin-top: 2px; }
+.dm-rain {
+  position: absolute; width: 2px; height: 8px;
+  background: rgba(100,170,255,0.85);
+  border-radius: 2px;
+  animation: dmRainFall 0.6s linear infinite;
+}
+@keyframes dmRainFall {
+  0% { transform: translateY(-4px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(22px); opacity: 0; }
+}
+.dm-puddle {
+  position: absolute; bottom: 12px; left: 22px;
+  width: 44px; height: 14px;
+  background: radial-gradient(ellipse, rgba(80,140,220,0.5), rgba(40,100,190,0.2));
+  border-radius: 50%;
+  transform: rotateX(-90deg);
+  animation: dmPuddle 1.5s ease-in-out infinite alternate;
+}
+@keyframes dmPuddle {
+  0% { transform: rotateX(-90deg) scaleX(0.9); }
+  100% { transform: rotateX(-90deg) scaleX(1.05); }
+}

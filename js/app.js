@@ -406,11 +406,13 @@
 
         const el = document.createElement('article');
         el.className = `factor level-${lvl}`;
+        const dioramaHTML = window.ClimDioramas ? window.ClimDioramas.get(f.id, f.valor, lvl) : '';
         el.innerHTML = `
           <div class="factor-top">
             <div class="factor-name">${f.icona || ''}${f.nome}</div>
             <div class="factor-gauge level-${lvl}">${(f.nivel?.rotulo || '—').toUpperCase()}</div>
           </div>
+          ${dioramaHTML}
           <div class="factor-value ${f.valor == null ? 'value-none' : ''}">${fmt}<small>${unid}</small></div>
           <div class="factor-micro">${microText}</div>
         `;
