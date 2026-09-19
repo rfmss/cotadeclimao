@@ -576,3 +576,44 @@ html, body {
     padding: 1.2vh;
   }
 }
+
+/* Legenda de Cores */
+.color-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1vw;
+  flex-wrap: wrap;
+  margin-top: 1.5vh;
+  font-size: 1.5vh;
+  font-weight: 800;
+  color: #4B5563;
+  padding-bottom: 0.5vh;
+}
+.color-legend span {
+  display: flex;
+  align-items: center;
+  gap: 0.4vw;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.color-legend span::before {
+  content: '';
+  display: inline-block;
+  width: 1.4vh;
+  height: 1.4vh;
+  border-radius: 50%;
+  background: var(--color);
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+@media (max-width: 1024px), (max-aspect-ratio: 4/3) {
+  .color-legend {
+    font-size: 1.7vh;
+    gap: 2vw;
+    margin-top: 2vh;
+  }
+  .color-legend span::before {
+    width: 1.6vh;
+    height: 1.6vh;
+  }
+}
