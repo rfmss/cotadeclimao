@@ -4,13 +4,14 @@
  * (dados climáticos ficam no IndexedDB, gerenciados pelo app — nunca cache-first
  *  de dados em Cache API para evitar mostrar dados velhos perigosos)
  */
-const CACHE = 'cota-v2';
+const CACHE = 'cota-v3';
 
 const SHELL = [
   './',
   './index.html',
   './manifest.json',
   './css/style.css',
+  './js/schema.js',
   './js/app.js',
   './js/api.js',
   './js/calculations.js',
