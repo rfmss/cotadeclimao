@@ -13,8 +13,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   
-  <!-- Microsoft Fluent System Icons via Iconify -->
-  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 </head>
 <body>
 <div id="app-main" role="main" data-state="loading">
@@ -34,7 +32,7 @@
 
       <!-- Cartão de Gravidade Máxima -->
       <div class="traffic-light-card" id="traffic-card" aria-live="polite" aria-atomic="true">
-        <div class="score-title"><span class="iconify" data-icon="fluent:heart-pulse-24-filled" style="vertical-align: -0.15em; font-size: 1.2em; margin-right: 4px;"></span> ÍNDICE DE RISCO CLIMÁTICO (0 a 100)</div>
+        <div class="score-title"><svg style="vertical-align: -0.15em; font-size: 1.2em; margin-right: 4px;" viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><path fill="currentColor" d="m12.82 5.58l-.82.822l-.824-.824A5.375 5.375 0 0 0 2.249 11h1.605a3.876 3.876 0 0 1 6.261-4.36l1.358 1.357a.75.75 0 0 0 1.073-.012L13.88 6.64A3.88 3.88 0 0 1 20.149 11h1.605a5.38 5.38 0 0 0-8.934-5.42m-1.35 15.495L4.894 14.5h1.963q.077 0 .152-.007L12 19.484l4.988-4.985h2.122l-6.58 6.576a.75.75 0 0 1-1.06 0M9.42 8.415a.75.75 0 0 0-1.348.014l-1.69 3.57H2.75a.75.75 0 0 0 0 1.5h4.107a.75.75 0 0 0 .678-.429l1.234-2.606l2.56 5.12a.75.75 0 0 0 1.279.105l2.698-3.736l1.13 1.29A.75.75 0 0 0 17 13.5h4.25a.75.75 0 0 0 0-1.5h-3.91l-1.526-1.743a.75.75 0 0 0-1.172.054l-2.525 3.496z"/></svg> ÍNDICE DE RISCO CLIMÁTICO (0 a 100)</div>
         <div class="score-number-display" id="fake-score" aria-label="Pontuação de risco">00</div>
         <h2 id="score-label" class="score-word">MEDINDO...</h2>
         <div id="quick-tips" class="quick-tips"></div>
@@ -50,9 +48,9 @@
       <!-- O QUE FAZER -->
       <div class="action-board">
         <div class="personas" role="group" aria-label="Perfil de recomendação">
-          <button data-persona="geral" class="btn-action active" aria-pressed="true"><span class="iconify" data-icon="fluent:home-24-filled" aria-hidden="true"></span> GERAL</button>
-          <button data-persona="pescador" class="btn-action" aria-pressed="false"><span class="iconify" data-icon="fluent:vehicle-ship-24-filled" aria-hidden="true"></span> PESCA</button>
-          <button data-persona="agricultor" class="btn-action" aria-pressed="false"><span class="iconify" data-icon="fluent:leaf-two-24-filled" aria-hidden="true"></span> ROÇA</button>
+          <button data-persona="geral" class="btn-action active" aria-pressed="true"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><path fill="currentColor" d="M10.55 2.532a2.25 2.25 0 0 1 2.9 0l6.75 5.692c.507.428.8 1.057.8 1.72v9.31a1.75 1.75 0 0 1-1.75 1.75h-3.5a1.75 1.75 0 0 1-1.75-1.75v-5.007a.25.25 0 0 0-.25-.25h-3.5a.25.25 0 0 0-.25.25v5.007a1.75 1.75 0 0 1-1.75 1.75h-3.5A1.75 1.75 0 0 1 3 19.254v-9.31c0-.663.293-1.292.8-1.72zm1.933 1.147a.75.75 0 0 0-.966 0L4.767 9.37a.75.75 0 0 0-.267.573v9.31c0 .138.112.25.25.25h3.5a.25.25 0 0 0 .25-.25v-5.007c0-.967.784-1.75 1.75-1.75h3.5c.966 0 1.75.783 1.75 1.75v5.007c0 .138.112.25.25.25h3.5a.25.25 0 0 0 .25-.25v-9.31a.75.75 0 0 0-.267-.573z"/></svg> GERAL</button>
+          <button data-persona="pescador" class="btn-action" aria-pressed="false"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><path fill="currentColor" d="M8.75 2a.75.75 0 0 0-.75.75V5H5.75a.75.75 0 0 0-.75.75v4.765l-1.46.534a.75.75 0 0 0-.423 1.02l2.335 5.019a1.75 1.75 0 0 1 1.924.581l-2.554-5.492l6.587-2.412a1.75 1.75 0 0 1 1.19-.005l6.775 2.418l-2.622 5.345a1.75 1.75 0 0 1 1.871-.408l2.468-5.031a.75.75 0 0 0-.421-1.037L19 10.451V5.75a.75.75 0 0 0-.75-.75H16V2.75a.75.75 0 0 0-.75-.75zm5.75 3h-5V3.5h5zm3 1.5v3.416l-4.397-1.569a3.25 3.25 0 0 0-2.21.01L6.5 9.964V6.5zm1.227 12.064l-.003-.01a.75.75 0 0 0-1.441-.023v.002l-.004.009l-.02.058q-.03.082-.096.232c-.09.199-.228.46-.42.718c-.388.515-.94.95-1.743.95s-1.356-.435-1.743-.95a3.9 3.9 0 0 1-.538-1.009l-.003-.009a.75.75 0 0 0-1.435.001v.001l-.004.01l-.02.057a3.8 3.8 0 0 1-.514.95c-.386.514-.937.949-1.743.949s-1.358-.435-1.744-.95a3.8 3.8 0 0 1-.535-1.007l-.003-.011a.75.75 0 0 0-1.441.02l-.003.009l-.018.054a3.3 3.3 0 0 1-.504.922c-.384.49-.996.963-2.002.963a.75.75 0 0 0 0 1.5c1.574 0 2.587-.777 3.183-1.537L6 20.374l.056.076C6.608 21.185 7.556 22 9 22s2.392-.815 2.943-1.55l.057-.078l.058.079C12.61 21.185 13.558 22 15 22s2.39-.815 2.942-1.55l.055-.075q.032.044.066.087c.595.761 1.61 1.538 3.187 1.538a.75.75 0 0 0 0-1.5c-1.012 0-1.623-.473-2.005-.962a3.3 3.3 0 0 1-.518-.974"/></svg> PESCA</button>
+          <button data-persona="agricultor" class="btn-action" aria-pressed="false"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><path fill="currentColor" d="M2.002 4.705V9a6 6 0 0 0 6.293 5.993a7 7 0 0 0 1.259 2.394l-2.33 2.329a.75.75 0 0 0 1.06 1.06l2.33-2.329a6.999 6.999 0 0 0 11.389-5.451V7.748a1.75 1.75 0 0 0-1.75-1.75h-5.249c-.583 0-1.15.071-1.692.205A6 6 0 0 0 8.002 3H3.707c-.941 0-1.705.763-1.705 1.705m9.682 12.674l4.096-4.094a.75.75 0 0 0-1.06-1.06l-4.097 4.094a5.499 5.499 0 0 1 4.382-8.821h5.248a.25.25 0 0 1 .25.25v5.248a5.499 5.499 0 0 1-8.82 4.383M8.002 4.5c1.657 0 3.105.895 3.886 2.228a7.03 7.03 0 0 0-2.71 2.39L7.28 7.22a.75.75 0 0 0-1.06 1.06l2.237 2.238a7 7 0 0 0-.433 2.982h-.022a4.5 4.5 0 0 1-4.5-4.5V4.705c0-.113.092-.205.205-.205z"/></svg> ROÇA</button>
         </div>
         <ul id="rec-list" class="huge-instructions" aria-label="Lista de recomendações operacionais" tabindex="0"></ul>
       </div>
@@ -122,23 +120,23 @@
         }
         else if(val >= 80) {
           card.classList.add('bg-emergencia');
-          if(tips) tips.innerHTML = '🚨 <strong>PERIGO EXTREMO:</strong> Risco à vida. Idosos e crianças devem ficar em ambiente climatizado. Não saia de casa sem extrema necessidade.';
+          if(tips) tips.innerHTML = '<strong>EXTREMO:</strong> Risco fisiológico real. Idosos e crianças em ambiente refrigerado. Cancele qualquer atividade ao sol.';
         }
         else if(val >= 60) {
           card.classList.add('bg-perigo');
-          if(tips) tips.innerHTML = '⚠️ <strong>ALERTA GRAVE:</strong> Risco alto de insolação ou danos. Cancele atividades ao ar livre. Monitore a hidratação de idosos e crianças de perto.';
+          if(tips) tips.innerHTML = '<strong>PERIGO:</strong> Alta probabilidade de insolação. Hidrate-se com frequência, use protetor e limite o tempo exposto ao sol.';
         }
         else if(val >= 40) {
           card.classList.add('bg-alerta');
-          if(tips) tips.innerHTML = '☀️ <strong>ATENÇÃO:</strong> Exige cautela. Use óculos, passe bastante protetor solar, vista roupas leves e beba muita água ao longo do dia.';
+          if(tips) tips.innerHTML = '<strong>ALERTA:</strong> Clima exige cautela. Use óculos e protetor solar, vista roupas leves e beba água com regularidade.';
         }
         else if(val >= 20) {
           card.classList.add('bg-atencao');
-          if(tips) tips.innerHTML = '👀 <strong>CUIDADO LEVE:</strong> Evite exposição prolongada no meio-dia. Mantenha uma garrafa de água por perto.';
+          if(tips) tips.innerHTML = '<strong>ATENÇÃO:</strong> Condições razoáveis, mas fique atento. Hidratação e proteção solar ainda são recomendadas.';
         }
         else {
           card.classList.add('bg-bom');
-          if(tips) tips.innerHTML = '✅ <strong>CLIMA SEGURO:</strong> Condições amigáveis. Aproveite o dia ao ar livre com tranquilidade.';
+          if(tips) tips.innerHTML = '<strong>SEGURO:</strong> Clima favorável. Boas condições para atividades ao ar livre.';
         }
       });
       obsCard.observe(d1, {childList: true, characterData: true, subtree: true});
