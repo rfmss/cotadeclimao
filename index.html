@@ -84,6 +84,29 @@
   </div>
 
   <div class="loading-ring" role="status" aria-label="Carregando dados meteorológicos"><div class="ring" aria-hidden="true"></div></div>
+
+  <footer class="app-disclaimer" aria-label="Fontes e transparência de dados">
+    <p>
+      <strong>Dados ao vivo:</strong>
+      <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo Forecast</a> · 
+      <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener">Open-Meteo Air Quality (PM2.5/AQI)</a> · 
+      <a href="https://open-meteo.com/en/docs/marine-weather-api" target="_blank" rel="noopener">Open-Meteo Marine (ondas)</a> · 
+      <a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/ensostuff/ONI_v5.php" target="_blank" rel="noopener">NOAA/CPC ONI (El Niño)</a>
+    </p>
+    <p>
+      <strong>Normas científicas aplicadas:</strong>
+      NIOSH (2016) — Estresse Térmico/WBGT · 
+      ISO 7933 — WBGT outdoor (Liljegren) · 
+      WHO (2021) — Qualidade do Ar (PM2.5/PM10/O₃/NO₂) · 
+      WHO/EPA — Índice UV · 
+      OMM — Escala de Beaufort
+    </p>
+    <p>
+      Localização de referência: <strong>Regência, Linhares-ES (−19.52°, −39.78°)</strong> — 
+      dados atualizados a cada 15 min com fallback offline via Service Worker (PWA).
+      Índice de Risco Climático é um cálculo proprietário ponderado e <em>não substitui alertas oficiais da Defesa Civil</em>.
+    </p>
+  </footer>
 </div>
 
 <script src="js/schema.js"></script>
