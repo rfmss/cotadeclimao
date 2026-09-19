@@ -70,3 +70,59 @@ Auditar e ajustar `css/style.css` e `index.html` para conformidade WCAG AAA (alt
 ### Acessibilidade e Contenção
 - [ ] O layout deve permanecer contido em uma única tela (100vh) sem scroll vertical da página principal, e com contrastes legíveis testados.
 
+## Follow-up — 2026-09-19T19:27:01Z
+
+Os dioramas isométricos 3D inseridos nos cards de fator climático do Cota de Climão ficaram visualmente ruins: a perspectiva CSS em 90px de altura colapsa e exibe apenas blocos marrom/verde sem animação perceptível. O objetivo é redesenhar os 6 dioramas como **ilustrações 2D animadas em CSS puro** — compactas, expressivas e visualmente limpas dentro dos cards.
+
+Working directory: /home/rafamass/Área de trabalho/COTADECLIMAO
+Integrity mode: development
+
+---
+
+## Contexto
+
+- Os cards de fator ficam num grid 3×2 no painel direito. Cada card tem ~180×220px.
+- O diorama ocupa uma faixa de `height: 90px` entre o badge de nível e o valor numérico.
+- O arquivo atual é `js/dioramas.js` (gerador de HTML por fator) e o CSS está no final de `css/style.css` (seção `DIORAMAS ISOMÉTRICOS`).
+- A classe container é `.dm`, com variantes `.dm-calor`, `.dm-sol`, `.dm-vento`, `.dm-umidade`, `.dm-ar`, `.dm-chuva`.
+
+## Requirements
+
+### R1. Redesenho visual dos 6 dioramas como cenas 2D animadas
+
+Substituir a abordagem isométrica 3D (que falha em cards pequenos) por **ilustrações 2D animadas em CSS puro**, uma para cada fator climático. Cada diorama deve:
+
+- Caber dentro de uma faixa de 90px de altura e 100% de largura do card.
+- Transmitir visualmente o fenômeno do fator (calor, vento, chuva etc.) de forma imediata — o usuário entende de relance do que se trata.
+- Usar animações CSS (`@keyframes`) suaves e não-distrativas, calibradas ao nível de severidade (`nivel`: `bom`, `atencao`, `alerta`, `perigo`, `emergencia`) — quanto mais severo, mais intenso o movimento/cor.
+- Não depender de bibliotecas externas (nada de Lottie, GreenSock, SVG animado externo). Apenas HTML e CSS inline gerado pelo JS.
+
+Sugestão de direção visual (o time pode superar):
+- **Calor**: sol com raios pulsando, chão rachado em gradiente quente
+- **Sol**: disco com halo girando lentamente, sombra projetada
+- **Vento**: linhas de vento horizontais, bandeirinha balançando, folhas voando
+- **Umidade**: gotas caindo, névoa/blur de fundo
+- **Ar**: partículas flutuando, gradiente nebuloso
+- **Chuva**: nuvem com pingos e poça animada embaixo
+
+### R2. Refatoração limpa de `js/dioramas.js` e `css/style.css`
+
+- Remover **todo** o CSS da seção `DIORAMAS ISOMÉTRICOS` de `css/style.css` e substituir pelo novo CSS 2D.
+- Reescrever `js/dioramas.js` mantendo a mesma interface pública (`window.ClimDioramas.get(factorId, valor, nivel)` retorna HTML string).
+- Não tocar em nenhum outro arquivo (`app.js`, `index.html`, `js/factors.js` etc.).
+
+## Acceptance Criteria
+
+### Visual
+- [ ] Cada um dos 6 dioramas exibe animação visivelmente diferente entre si ao inspecionar o DOM no browser.
+- [ ] A um nível `emergencia`, a animação é claramente mais intensa (velocidade ou saturação) que no nível `bom`.
+- [ ] Nenhum diorama exibe elementos cortados, overflow visível ou quebra de layout nos cards do grid 3×2.
+- [ ] Os dioramas são legíveis/perceptíveis em tela 1280×800 (desktop) e em viewport 390×844 (mobile portrait).
+
+### Técnico
+- [ ] `window.ClimDioramas.get('calor', 25, 'alerta')` retorna uma string HTML não-vazia.
+- [ ] Nenhuma dependência externa nova introduzida.
+- [ ] CSS da seção anterior (`.dm-island`, `.dm-dirt-s`, `.dm-tornado`, etc.) completamente removido.
+- [ ] Um script de validação `test_dioramas.js` (Node.js, sem browser) confirma que todos os 6 IDs retornam HTML não-vazio para cada um dos 5 níveis, e que nenhuma string contém `rotateX` ou `preserve-3d` (garantindo que a abordagem isométrica foi removida).
+
+

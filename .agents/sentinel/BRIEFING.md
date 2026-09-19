@@ -1,7 +1,7 @@
-# BRIEFING — 2026-09-19T16:36:00Z
+# BRIEFING — 2026-09-19T19:28:00Z
 
 ## Mission
-Monitor and route the Cota de Climão restructuring project, supervising SWE Light orchestrator and victory auditor.
+Monitor and route the Cota de Climão 2D animated CSS dioramas redesign project, supervising the project orchestrator and victory auditor.
 
 ## 🔒 My Identity
 - Archetype: sentinel
@@ -11,6 +11,7 @@ Monitor and route the Cota de Climão restructuring project, supervising SWE Lig
 - Orchestrator (resumed): 2d846ab2-8caf-4641-abd1-5659d703237b
 - SWE Light Orchestrator: 3d3cd6f3-db02-49bd-a18d-7fd8fb466243
 - Victory Auditor (Sentinel): af45d509-162a-4194-9b28-7395cb560706
+- Project Orchestrator (Dioramas): 58cabd46-5c54-44ea-a3c4-2932700325e6
 
 ## 🔒 Key Constraints
 - No technical decisions — relay only
@@ -20,30 +21,23 @@ Monitor and route the Cota de Climão restructuring project, supervising SWE Lig
 - Must not report project completion without VICTORY CONFIRMED verdict
 
 ## User Context
-- **Last user request**: Single self-contained fix, small focused team (1 implementer + lean review) for Cota de Climão: R1 (Data resilience & cache), R2 (Combinatorial microcopy matrix), R3 (UI/UX 100vh containment & WCAG AAA contrast). Acceptance: node test_m1_units.js, node test_stress_m1.js, node test_matrix.js, 100vh no-scroll.
+- **Last user request**: Redesign 6 climate factor dioramas as pure CSS animated 2D illustrations in 90px card height. Remove old 3D isometric CSS (.dm-island, etc.) from css/style.css, rewrite js/dioramas.js keeping public interface window.ClimDioramas.get(factorId, valor, nivel), no external libs, no other file edits, add test_dioramas.js for automated verification.
 - **Pending clarifications**: none
-- **Delivered results**: 
-  - R1: Resilient data and cache engine (js/api.js, js/app.js, js/storage.js, js/schema.js) with zero-loading freezes and safe offline empty states.
-  - R2: Combinatorial microcopy matrix (js/recommendations.js, test_matrix.js) crossing 7 biometeorological factors with 3 personas without repetition.
-  - R3: WCAG AAA high-contrast palette (>= 7:1) and strict 100vh viewport containment (css/style.css, index.html).
-  - 100% pass across all 9 automated test suites (156+ assertions).
+- **Delivered results**: previous M1 milestones verified and delivered.
 
 ## Project Status
-- **Phase**: complete
-- **Route**: SWE Light (teamwork_preview_swe)
-- **Active Agent**: none (killed after completion)
-- **Auditor**: af45d509-162a-4194-9b28-7395cb560706 (completed)
-- **Cron 1 (Reporting)**: cancelled
-- **Cron 2 (Liveness)**: cancelled
+- **Phase**: in progress
+- **Route**: General (teamwork_preview_orchestrator)
+- **Active Agent**: teamwork_preview_orchestrator (58cabd46-5c54-44ea-a3c4-2932700325e6)
+- **Cron 1 (Reporting)**: task-29 (*/8 * * * *)
+- **Cron 2 (Liveness)**: task-31 (*/10 * * * *)
 
 ## Victory Audit Status
-- **Triggered**: yes
-- **Verdict**: VICTORY CONFIRMED
+- **Triggered**: no
+- **Verdict**: pending
 - **Retry count**: 0
 
 ## Artifact Index
 - /home/rafamass/Área de trabalho/COTADECLIMAO/ORIGINAL_REQUEST.md — Authoritative user request
 - /home/rafamass/Área de trabalho/COTADECLIMAO/.agents/ORIGINAL_REQUEST.md — Replica of authoritative user request
-- /home/rafamass/Área de trabalho/COTADECLIMAO/.agents/teamwork_preview_swe_1/handoff.md — SWE Light Orchestrator Handoff
-- /home/rafamass/Área de trabalho/COTADECLIMAO/.agents/teamwork_preview_victory_auditor_sentinel/handoff.md — Sentinel Independent Victory Audit Report
 
