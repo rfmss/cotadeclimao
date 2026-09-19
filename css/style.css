@@ -478,80 +478,101 @@ html, body {
   display: none;
 }
 
-@media (max-aspect-ratio: 4/3) {
+
+.btn-action .iconify {
+  font-size: 2.6vh;
+}
+.factor-name .iconify {
+  font-size: 3.2vh;
+  width: 3.2vh;
+  height: 3.2vh;
+}
+
+/* Responsividade: Tablet e Mobile Landscape */
+@media (max-width: 1024px), (max-aspect-ratio: 4/3) {
+  html, body {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+  }
+  #app-main {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    min-height: 100vh;
+  }
   .dashboard-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: 46% 54%;
-    gap: 0.8vh;
+    grid-template-rows: auto auto;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    gap: 2vh;
   }
-  .panel-status {
-    gap: 0.8vh;
-    padding: 1.4vh 2vw;
+  .panel-status, .panel-factors {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
-  .traffic-light-card {
-    padding: 1.2vh;
-    min-height: 18vh;
+  .action-board {
+    overflow: visible !important;
   }
-  .score-word {
-    font-size: 2.4vh;
-    margin-top: 0.4vh;
+  .huge-instructions {
+    overflow: visible !important;
   }
-  .score-number-display {
-    font-size: 7vh;
-  }
-  .huge-instructions li {
-    font-size: 1.7vh;
-    padding: 1.1vh;
-  }
-  .btn-action {
-    font-size: 1.5vh;
-    padding: 1vh;
-  }
+  
   .factors-grid {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 0.8vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    height: auto !important;
+    max-height: none !important;
+    gap: 1.5vh;
   }
   .factor {
-    padding: 0.8vh 0.8vw;
-    border-radius: 1.4vh;
-  }
-  .factor-name {
-    font-size: 1.9vh;
-    flex-direction: column;
-    gap: 0;
-  }
-  .factor-name svg {
-    width: 3vh;
-    height: 3vh;
+    min-height: 22vh;
+    padding: 2vh 2vw;
   }
   .factor-value {
-    font-size: 4.5vh;
-    margin-top: 0.4vh;
+    font-size: 6vh;
+    margin: 2vh 0;
   }
-  .factor-value small {
+  .factor-name {
+    font-size: 2.2vh;
+    flex-direction: row;
+    gap: 0.8vw;
+  }
+  .score-number-display {
+    font-size: 8vh;
+  }
+  .huge-instructions li {
     font-size: 1.8vh;
+    padding: 1.5vh;
   }
-  .factor-gauge {
-    font-size: 1.2vh;
-    padding: 0.3vh 0.8vw;
+  .btn-action {
+    font-size: 1.8vh;
+    padding: 1.5vh;
   }
-  .factor-micro {
-    font-size: 1.35vh;
-    padding: 0.8vh;
+  .btn-action .iconify {
+    font-size: 2.8vh;
   }
   .logo {
-    font-size: 2.2vh;
+    font-size: 2.5vh;
   }
 }
 
-@media (max-aspect-ratio: 1/2) {
-  .dashboard-grid {
-    grid-template-rows: 48% 52%;
-  }
+/* Mobile Portrait - Telas Pequenas */
+@media (max-width: 600px) {
   .factors-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: 1fr;
+  }
+  .personas {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    flex: 1 1 calc(33% - 1vw);
+    font-size: 1.6vh;
+    padding: 1.2vh;
   }
 }
-

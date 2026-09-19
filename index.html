@@ -13,8 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   
-  <!-- Phosphor Icons (para caso queira usar ícones nas personas futuramente, embora os das cotas já sejam SVG nativo do seu js) -->
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- Microsoft Fluent System Icons via Iconify -->
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 </head>
 <body>
 <div id="app-main" role="main" data-state="loading">
@@ -34,7 +34,7 @@
 
       <!-- Cartão de Gravidade Máxima -->
       <div class="traffic-light-card" id="traffic-card" aria-live="polite" aria-atomic="true">
-        <div class="score-title">ÍNDICE DE RISCO CLIMÁTICO (0 a 100)</div>
+        <div class="score-title"><span class="iconify" data-icon="fluent:heart-pulse-24-filled" style="vertical-align: -0.15em; font-size: 1.2em; margin-right: 4px;"></span> ÍNDICE DE RISCO CLIMÁTICO (0 a 100)</div>
         <div class="score-number-display" id="fake-score" aria-label="Pontuação de risco">00</div>
         <h2 id="score-label" class="score-word">MEDINDO...</h2>
         <div id="quick-tips" class="quick-tips"></div>
@@ -50,9 +50,9 @@
       <!-- O QUE FAZER -->
       <div class="action-board">
         <div class="personas" role="group" aria-label="Perfil de recomendação">
-          <button data-persona="geral" class="btn-action active" aria-pressed="true"><i class="ph ph-house" aria-hidden="true"></i> GERAL</button>
-          <button data-persona="pescador" class="btn-action" aria-pressed="false"><i class="ph ph-anchor" aria-hidden="true"></i> PESCA</button>
-          <button data-persona="agricultor" class="btn-action" aria-pressed="false"><i class="ph ph-plant" aria-hidden="true"></i> ROÇA</button>
+          <button data-persona="geral" class="btn-action active" aria-pressed="true"><span class="iconify" data-icon="fluent:home-24-filled" aria-hidden="true"></span> GERAL</button>
+          <button data-persona="pescador" class="btn-action" aria-pressed="false"><span class="iconify" data-icon="fluent:vehicle-ship-24-filled" aria-hidden="true"></span> PESCA</button>
+          <button data-persona="agricultor" class="btn-action" aria-pressed="false"><span class="iconify" data-icon="fluent:leaf-two-24-filled" aria-hidden="true"></span> ROÇA</button>
         </div>
         <ul id="rec-list" class="huge-instructions" aria-label="Lista de recomendações operacionais" tabindex="0"></ul>
       </div>

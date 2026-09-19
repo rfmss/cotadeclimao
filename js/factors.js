@@ -11,7 +11,7 @@
     {
       id: 'calor',
       nome: 'Calor',
-      icona: I('<path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/><line x1="12" y1="9" x2="12" y2="3"/>'),
+      icona: '<span class="iconify" data-icon="fluent:temperature-24-filled"></span>',
       unidade: '°C',
       alvo: 'WBGT // ISO 7933',
       ideal: '≤ 28°C',
@@ -28,7 +28,7 @@
     {
       id: 'sol',
       nome: 'Sol',
-      icona: I('<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"/>'),
+      icona: '<span class="iconify" data-icon="fluent:weather-sunny-24-filled"></span>',
       unidade: '',
       alvo: 'ÍNDICE UV // WHO',
       ideal: '< 6',
@@ -39,7 +39,7 @@
     {
       id: 'vento',
       nome: 'Vento',
-      icona: I('<path d="M9.59 4.59A2 2 0 1 1 11 8H2"/><path d="M12.59 19.41A2 2 0 1 0 14 16H2"/><path d="M17.73 7.73A2.5 2.5 0 1 1 19.5 12H2"/>'),
+      icona: '<span class="iconify" data-icon="fluent:flag-24-filled"></span>',
       unidade: 'km/h',
       alvo: 'BEAUFORT // OMM',
       ideal: '≤ BF5 (38 km/h)',
@@ -54,7 +54,7 @@
     {
       id: 'umidade',
       nome: 'Umidade',
-      icona: I('<path d="M12 2.5l5.7 5.7a8 8 0 1 1-11.4 0z"/>'),
+      icona: '<span class="iconify" data-icon="fluent:weather-humidity-24-filled"></span>',
       unidade: '%',
       alvo: 'BULBO ÚMIDO',
       ideal: '< 80%',
@@ -69,7 +69,7 @@
     {
       id: 'ar',
       nome: 'Ar',
-      icona: I('<path d="M6.5 3.5c3.6 1.6 6 4.8 6 8.5s-2.4 6.9-6 8.5c-1.9-2.7-3-5.4-3-8.5s1.1-5.8 3-8.5z" fill="none"/><path d="M17.5 3.5c-3.6 1.6-6 4.8-6 8.5s2.4 6.9 6 8.5c1.2-1.7 1.9-3.4 1.9-5.2" stroke-dasharray="2.2 2.4"/>'),
+      icona: '<span class="iconify" data-icon="fluent:weather-duststorm-24-filled"></span>',
       unidade: '',
       alvo: 'AQI // PM2.5',
       ideal: '< 40',
@@ -86,7 +86,7 @@
     {
       id: 'chuva',
       nome: 'Chuva',
-      icona: I('<path d="M23 12a11.05 11.05 0 0 0-22 0z"/><path d="M18 19a3 3 0 0 1-6 0v-3.3"/><path d="M2 12h20"/>'),
+      icona: '<span class="iconify" data-icon="fluent:weather-rain-24-filled"></span>',
       unidade: '%',
       alvo: 'PROBABILIDADE // MM',
       ideal: '< 30%',
