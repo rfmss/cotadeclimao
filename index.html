@@ -28,6 +28,10 @@
           <span id="status-label">ATUALIZANDO...</span>
         </div>
         <div id="updated-at" class="badge-time"></div>
+        <button type="button" id="btn-intensity" class="btn-intensity" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><path fill="currentColor" d="M4 3.75A1.75 1.75 0 0 0 2.25 5.5v11a3.25 3.25 0 0 0 3.25 3.25h13a3.25 3.25 0 0 0 3.25-3.25v-11A1.75 1.75 0 0 0 20 3.75zM20 5.25c.138 0 .25.112.25.25v3.5H3.75V5.5c0-.138.112-.25.25-.25zm-16.25 13V11h7.5v7.5h-4a1.75 1.75 0 0 1-1.75-1.75zm7.25 1.5V11h6v7.25a.75.75 0 0 1-.75.75zm6.75-1.75c.138 0 .25-.112.25-.25V11h-4.5v7.5z"/></svg>
+          INTENSIDADES
+        </button>
       </header>
 
       <!-- Cartão de Gravidade Máxima -->
@@ -85,6 +89,8 @@
 
   <div class="loading-ring" role="status" aria-label="Carregando dados meteorológicos"><div class="ring" aria-hidden="true"></div></div>
 
+  <div id="intensity-host"></div>
+
   <footer class="app-disclaimer" aria-label="Fontes e transparência de dados">
     <p>
       <strong>Dados ao vivo:</strong>
@@ -117,6 +123,7 @@
 <script src="js/recommendations.js"></script>
 <script src="js/api.js"></script>
 <script src="js/dioramas.js"></script>
+<script src="js/intensity.js"></script>
 <script src="js/app.js"></script>
 <script>
   // O app.js já renderizou e escondeu o loading.

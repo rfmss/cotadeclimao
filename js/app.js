@@ -405,14 +405,21 @@
         }
 
         const el = document.createElement('article');
-        el.className = `factor level-${lvl}`;
-        const dioramaHTML = window.ClimDioramas ? window.ClimDioramas.get(f.id, f.valor, lvl) : '';
+        el.className = `factor level-${lvl} ${f.id ? 'factor-' + f.id : ''}`;
+        const INTENS = { bom: 'leve', atencao: 'moderado', alerta: 'forte', perigo: 'extremo', emergencia: 'extremo', indisponivel: 'indisponivel' };
+        const inten = INTENS[lvl] || 'indisponivel';
+        const hero = (
+          '<div class="factor-hero level-' + inten + '">' +
+            '<img src="assets/' + f.id + '.png" alt="Ilustração de ' + f.nome + ' em intensidade ' + inten + '" loading="lazy" />' +
+            '<span class="hero-badge">' + inten.toUpperCase() + '</span>' +
+          '</div>'
+        );
         el.innerHTML = `
           <div class="factor-top">
             <div class="factor-name">${f.icona || ''}${f.nome}</div>
             <div class="factor-gauge level-${lvl}">${(f.nivel?.rotulo || '—').toUpperCase()}</div>
           </div>
-          ${dioramaHTML}
+          ${hero}
           <div class="factor-value ${f.valor == null ? 'value-none' : ''}">${fmt}<small>${unid}</small></div>
           <div class="factor-micro">${microText}</div>
         `;
@@ -635,11 +642,18 @@
       window.ClimFactors.FACTORS.forEach((f) => {
         const el = document.createElement('article');
         el.className = 'factor level-indisponivel';
+        const hero = (
+          '<div class="factor-hero level-indisponivel">' +
+            '<img src="assets/' + f.id + '.png" alt="Ilustração de ' + f.nome + ' aguardando dados" loading="lazy" />' +
+            '<span class="hero-badge">INDISPONÍVEL</span>' +
+          '</div>'
+        );
         el.innerHTML = `
           <div class="factor-top">
             <div class="factor-name">${f.icona || ''}${f.nome}</div>
             <div class="factor-gauge level-indisponivel">INDISPONÍVEL</div>
           </div>
+          ${hero}
           <div class="factor-value value-none">—<small>${f.unidade || ''}</small></div>
           <div class="factor-micro">Aguardando sincronização de rede para aferição.</div>
         `;
